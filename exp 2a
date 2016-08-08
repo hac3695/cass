@@ -1,0 +1,145 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+int main ()
+{
+ char p[100],c[50],m[50],e[50];
+ int k,i,l,l1,b[50],d[50],ch;
+ FILE *fp,*fp1,*fp2,*fp3;
+
+	fp=fopen("sad.txt","r");
+
+ if(fp!=NULL)
+  {  while(!feof(fp))
+	 { fscanf(fp,"%s",p);
+	   fgets(p,100,fp);
+	   l=strlen(p);
+	 }
+    fclose(fp);
+  }
+  else
+  printf("error");
+printf("Enter Key:\t");
+scanf("%d",&k);
+
+printf("Input message is:\n");
+for(i=0;i<=l-1;i++)
+	printf("%c",p[i]);
+	printf("\n");
+do
+{
+
+
+printf("\n\nEnter your choice\n1)Encryption\n2)Decryption\n0)Exit\n");
+scanf("%d",&ch);
+
+switch(ch)
+{
+ case 1:    for(i=0;i<=l-1;i++)
+                {
+                    if(p[i]==(char)95)
+                        c[i]=p[i];
+                    else
+                        {
+                        b[i]=(int)(p[i]+k);
+                        if((b[i]>=65 && b[i]<=90 )||(b[i]>=97 && b[i]<=122))
+                            c[i]=(char)b[i];
+                        else
+                            {
+                            if(b[i]<=96)
+                                {
+                                b[i]=b[i]-90;
+                                c[i]=(char)(64+b[i]);
+                                }
+                            else
+                                {
+                                b[i]=b[i]-122;
+                                c[i]=(char)(96+b[i]);
+                                }
+                            }
+                        }
+                }
+                printf("\nThe encrypted message is :\n");
+                fp1=fopen("output1.txt","w");
+                for(i=0;i<=l-1;i++)
+                    {
+                    printf("%c",c[i]);
+                    fputc(c[i],fp1);
+                    }
+                fclose(fp1);
+                printf("\n");
+                break;
+
+case 2:     printf("\nThe decrypted message is:\n");
+            fp2=fopen("output1.txt","r");
+
+            if(fp2!=NULL)
+                {  while(!feof(fp2))
+                    { fscanf(fp2,"%s",c);
+                    fgets(c,100,fp2);
+                    l=strlen(c);
+                    }
+                    fclose(fp2);
+                }
+
+            for(i=0;i<=l-1;i++)
+                {
+                if(c[i]==(char)95)
+                    e[i]=c[i];
+                else
+                    {
+                    d[i]=(int)(c[i]-k);
+                    if((d[i]>=65 && d[i]<=90 )||(d[i]>=97 && d[i]<=122))
+                        e[i]=(char)d[i];
+                    else
+                        {
+
+                        if(d[i]<=96 && d[i]>=91)
+                            {
+                            d[i]=d[i]+26;
+                            e[i]=(char)d[i];
+                            }
+                        else
+                            {
+                            if(d[i]<65)
+                                {
+                                d[i]=d[i]+26;
+                                e[i]=(char)d[i];
+                                }
+                            }
+                        }
+                    }
+                }
+            fp3=fopen("output2.txt","w+");
+            for(i=0;i<=l-1;i++)
+                {	printf("%c",e[i]);
+
+                    putc(e[i],fp3);
+                }
+            fclose(fp3);
+            break;
+case 0: break;
+default: printf("Invalid input\n");
+            break;
+}
+            }while(ch!=0);
+ getch();
+ return 0;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
